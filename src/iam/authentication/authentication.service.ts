@@ -42,9 +42,7 @@ export class AuthenticationService {
             if(!isEqual){
                 throw new UnauthorizedException('密码不正确.')
             }
-            console.log(user);
 
-            console.log(this.jwtConfiguration);
             
             const accessToken = await this.jwtService.signAsync(
                 {
