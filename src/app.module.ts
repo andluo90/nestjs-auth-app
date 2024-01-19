@@ -4,8 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { UsersModule } from './users/users.module';
-import { HashingService } from './iam/hashing/hashing.service';
-import { BcryptService } from './iam/hashing/bcrypt.service';
+import { IamModule } from './iam/iam.module';
 
 @Module({
   imports: [CoffeesModule, UsersModule,TypeOrmModule.forRoot({
@@ -17,8 +16,9 @@ import { BcryptService } from './iam/hashing/bcrypt.service';
     database:'postgres',
     autoLoadEntities:true,
     synchronize:true
-  })],
+  }), IamModule],
   controllers: [AppController],
-  providers: [AppService, HashingService, BcryptService],
+
+  providers: [AppService],
 })
 export class AppModule {}
