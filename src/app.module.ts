@@ -7,7 +7,7 @@ import { UsersModule } from './users/users.module';
 import { IamModule } from './iam/iam.module';
 
 @Module({
-  imports: [CoffeesModule, UsersModule,TypeOrmModule.forRoot({
+  imports: [CoffeesModule, UsersModule,IamModule,TypeOrmModule.forRoot({
     type:'postgres',
     host:'localhost',
     port:5432,
