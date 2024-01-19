@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { HashingService } from '../hashing/hashing.service';
 import { SignUpDto } from './dto/sign-up.dto/sign-up.dto';
+import { SignInDto } from './dto/sign-in.dto/sign-in.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -25,5 +26,18 @@ export class AuthenticationService {
             throw error
         }
         
+    }
+
+    async signIn(signInDto:SignInDto){
+        const user = await this.usersRepository.findOneBy({email:signInDto.email})
+        if(user){
+            const isEqual = await this.hashingService.compare(signInDto.password,user.password)
+            if(!isEqual){
+                throw new UnauthorizedException('密码不正确.')
+            }
+            return true
+        }else{
+            throw new UnauthorizedException('该用户稍未注册.')
+        }
     }
 }
