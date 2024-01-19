@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { UsersModule } from './users/users.module';
+import { HashingService } from './iam/hashing/hashing.service';
+import { BcryptService } from './iam/hashing/bcrypt.service';
 
 @Module({
   imports: [CoffeesModule, UsersModule,TypeOrmModule.forRoot({
@@ -17,6 +19,6 @@ import { UsersModule } from './users/users.module';
     synchronize:true
   })],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, HashingService, BcryptService],
 })
 export class AppModule {}
