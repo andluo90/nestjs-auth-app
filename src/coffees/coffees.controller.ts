@@ -6,12 +6,15 @@ import { ActiveUser } from 'src/iam/decorators/active-user-decorator';
 import { ActiveUserData } from 'src/iam/interfaces/active-user-data.interface';
 import { Roles } from 'src/iam/authorization/decorators/roles.decorator';
 import { Role } from 'src/users/enums/role.enums';
+import { Auth } from 'src/iam/authentication/decorators/auth.decorator';
+import { AuthType } from 'src/iam/authentication/enums/auth-type-enums';
 
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
-  
-  @Roles(Role.Admin)
+
+  // @Roles(Role.Admin)
+  @Auth(AuthType.ApiKey)
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeesService.create(createCoffeeDto);
@@ -24,6 +27,7 @@ export class CoffeesController {
     return this.coffeesService.findAll();
   }
 
+  @Auth(AuthType.None)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.coffeesService.findOne(+id);
