@@ -52,7 +52,7 @@ export class AuthenticationService {
 
     async generateToken(user: User) {
         const [accessToken, refreshToken] = await Promise.all([
-            await this.signToken<Partial<ActiveUserData>>(user.id, this.jwtConfiguration.accessTokenTtl, { email: user.email }),
+            await this.signToken<Partial<ActiveUserData>>(user.id, this.jwtConfiguration.accessTokenTtl, { email: user.email,role:user.role }),
             await this.signToken(user.id, this.jwtConfiguration.refreshTokenTtl),
         ]);
 
@@ -63,7 +63,7 @@ export class AuthenticationService {
 
     async refreshToken(refreshTokenDto:RefreshTokenDto){
         try {
-                        const {sub} = await this.jwtService.verifyAsync<Pick<ActiveUserData,'sub'>>(refreshTokenDto.refreshToken,{
+            const {sub} = await this.jwtService.verifyAsync<Pick<ActiveUserData,'sub'>>(refreshTokenDto.refreshToken,{
                 audience: this.jwtConfiguration.audience,
                 issuer: this.jwtConfiguration.issuer,
                 secret: this.jwtConfiguration.secret,
